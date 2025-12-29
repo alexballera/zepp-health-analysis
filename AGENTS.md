@@ -13,6 +13,11 @@
 2. Desarrollar fuerza y condición física de forma progresiva y segura
 3. Construir proyecto real de Data Science para portfolio profesional
 
+**Enfoque de la actividad física:**
+- La actividad física es principalmente una **herramienta de gestión del estrés**
+- El análisis debe priorizar métricas de recuperación y estrés sobre métricas puramente estéticas
+- Foco en sostenibilidad y progresión segura, no en optimización extrema
+
 ---
 
 ## Suplementación y Criterios de Salud
@@ -142,19 +147,25 @@ logger.warning(f"⚠ Encoding utf-8 falló, usando latin-1")
 logger.error(f"✗ Archivo no encontrado: {filepath}")
 ```
 
-### 4. Estilo Bilingüe
+### 4. Preferencias de Idioma
 
-**Español (contexto local):**
-- Comentarios en notebooks
-- Log messages
-- Nombres de variables exploratorias
-- Paths descriptivos: `data/procesado/`
+**Respuestas del agente:**
+- SIEMPRE en **español latino neutro** (sin regionalismos, sin acentos específicos de país)
+- Comunicación técnica clara y profesional
+- Explicaciones y discusiones conceptuales en español
 
-**Inglés (código profesional):**
-- Nombres de funciones: `load_csv()`, `rolling_average()`
-- Docstrings
-- Variable names en src/
-- Commits
+**Código y archivos (SIEMPRE en inglés):**
+- Filesystem: nombres de carpetas y archivos en inglés (`data/raw/`, no `data/crudo/`)
+- Funciones, métodos, clases: inglés (`load_csv()`, `rolling_average()`)
+- Variables: inglés en src/, inglés también en notebooks para consistencia
+- Comentarios en código: inglés
+- Docstrings: inglés
+- Commits: inglés
+
+**Excepción (español permitido):**
+- Markdown en notebooks para narrativa y explicaciones al usuario
+- Mensajes de log cuando van dirigidos al usuario final
+- Variables temporales en exploración rápida (pero preferir inglés)
 
 ---
 
@@ -178,6 +189,27 @@ jupyter notebook notebooks/01_exploracion_inicial.ipynb
 2. Exportar en `src/__init__.py`
 3. Probar en notebook
 4. Refactorizar si es reutilizable
+
+---
+
+## Principios de Análisis
+
+### Análisis Útil vs. Estético
+- ✅ **Útil (priorizar):** Correlaciones sueño-estrés, tendencias de recuperación, impacto de entrenamientos en métricas de salud
+- ❌ **Estético (evitar):** Dashboards complejos sin insight accionable, métricas vanity sin contexto de decisión
+- **Criterio de validación:** ¿Este análisis informa una decisión concreta o cambio de comportamiento? Si no → descartar o simplificar
+
+### Enfoque Longitudinal
+- **Priorizar análisis de series temporales:** tendencias, cambios post-intervención, evolución semanal/mensual
+- **Comparaciones clave:** pre/post inicio de entrenamiento, semanas con buen vs. mal sueño, impacto de cambios en rutina
+- **Ingestión incremental:** diseñar scripts que soporten agregar nuevos CSVs sin rehacer análisis completo
+- **Ventanas de análisis:** últimos 7 días (tendencia corta), últimos 30 días (tendencia media), histórico completo (baseline)
+
+### Visión de Largo Plazo
+- Estructura modular para agregar métricas futuras sin refactorizar código base
+- Documentar decisiones de diseño en código (comentarios) y en notebooks (markdown)
+- Evitar soluciones one-off, pensar en reutilización y escalabilidad ligera
+- Priorizar reproducibilidad: alguien debe poder clonar el repo y reproducir análisis
 
 ---
 
@@ -286,20 +318,33 @@ Cuando agregues lógica compleja en src/, incluir ejemplos en docstrings.
 
 ## Para Todos los Agentes IA
 
+### Protocolo de Trabajo
+
+**CRÍTICO - Antes de programar:**
+1. **NO escribir código sin instrucción explícita del usuario**
+2. Si hay ambigüedad en la solicitud, proponer opciones y esperar confirmación
+3. Para cambios arquitecturales (nuevas carpetas, módulos, dependencias), justificar primero y obtener aprobación
+4. Mostrar plan de acción antes de implementar tareas complejas
+
 **Al trabajar en este proyecto:**
 1. **Siempre leer este archivo primero** antes de hacer cambios
-2. **No asumir acceso automático** a Zepp/Google Fit
-3. **No proponer soluciones sin justificar** su necesidad con datos
-4. **Mantener código defendible** (entrevistas, portfolio)
-5. **Distinguir claramente:**
-   - Datos observados
-   - Inferencias
-   - Recomendaciones
-6. **Evitar:**
-   - Sugerir APIs inexistentes
-   - Recomendar suplementos
-   - ML antes de EDA completo
-   - Hardcodear columnas/paths
+2. **Responder SIEMPRE en español latino neutro** (ver sección Preferencias de Idioma)
+3. **No asumir acceso automático** a Zepp/Google Fit (exportación manual únicamente)
+4. **No proponer soluciones sin justificar** su necesidad con datos o razonamiento técnico
+5. **Mantener código defendible** para contexto de entrevistas y portfolio profesional
+6. **Distinguir claramente en respuestas:**
+   - Datos observados (hechos)
+   - Inferencias (interpretaciones)
+   - Recomendaciones (acciones sugeridas)
+7. **Mantener trazabilidad:** comentarios claros, commits descriptivos, documentar decisiones no obvias
+
+**Evitar absolutamente:**
+- Sugerir APIs inexistentes o soluciones de auto-sincronización sin confirmación
+- Recomendar suplementos (decisiones ya tomadas por el usuario)
+- Proponer ML/modelos complejos antes de completar EDA baseline
+- Hardcodear nombres de columnas o paths (usar detección automática)
+- Análisis estético sin valor accionable
+- Sobre-ingeniería (KISS: Keep It Simple, Stupid)
 
 **Principio rector:**  
-Decisiones basadas en evidencia, código simple y mantenible, no sobre-ingeniería.
+Decisiones basadas en evidencia, código simple y mantenible, análisis accionable, no sobre-ingeniería.

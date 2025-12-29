@@ -16,7 +16,28 @@ Proyecto de Ciencia de Datos para análisis de datos de salud y actividad físic
 
 ---
 
-## 📊 Datos
+## � Preguntas Analíticas
+
+Este proyecto aborda interrogantes medibles mediante análisis longitudinal:
+
+**Sueño y recuperación:**
+- ¿Existe correlación entre volumen de actividad física (pasos, entrenamientos) y calidad de sueño con rezago temporal (0-2 días)?
+- ¿Qué porcentaje de varianza en duración de sueño profundo se explica por carga de entrenamiento?
+- ¿Se observan patrones cíclicos (semanales) en métricas de sueño?
+
+**Actividad y rendimiento:**
+- ¿El inicio de entrenamiento estructurado (ene-feb 2025) correlaciona con cambios en FC en reposo?
+- ¿Existe relación entre días consecutivos de baja actividad y deterioro de métricas de sueño?
+
+**Longitudinal:**
+- ¿Se detectan puntos de cambio (changepoints) en series temporales asociados a intervenciones (inicio entrenamiento, suplementación)?
+- ¿Qué métricas muestran mayor estabilidad/variabilidad intra-sujeto?
+
+Estas preguntas guían el análisis exploratorio y la selección de features para modelado futuro.
+
+---
+
+## �📊 Datos
 
 **Fuente:** App Zepp (reloj Amazfit)  
 **Método:** Exportación manual (CSV/ZIP)  
@@ -26,6 +47,21 @@ Proyecto de Ciencia de Datos para análisis de datos de salud y actividad físic
 - HRV (si disponible)
 - Pasos y actividad diaria
 - Entrenamientos
+
+### 📐 Nota Metodológica
+
+**Enfoque:** Este proyecto implementa un **análisis longitudinal N=1** (single-subject design), válido para:
+- Decisiones personalizadas basadas en datos propios (no generalizables a población)
+- Detección de patrones individuales y relaciones causales dentro-sujeto
+- Evaluación de intervenciones (entrenamiento, suplementación) con mediciones repetidas
+
+**Limitaciones reconocidas:**
+- Sin grupo control (comparaciones pre/post y análisis de series temporales compensan)
+- Confounders no medidos (dieta, estrés laboral) pueden afectar interpretación
+- Variabilidad de dispositivo wearable (precisión de sueño profundo en Amazfit)
+
+**Valor profesional:**  
+Muestra habilidades de análisis exploratorio, ingeniería de features, visualización y pensamiento crítico sobre limitaciones, aplicables a proyectos de mayor escala.
 
 ---
 
@@ -82,23 +118,54 @@ jupyter notebook notebooks/01_exploracion_inicial.ipynb
 
 ---
 
-## 📈 Métricas clave
+## 📈 Métricas y Metodología Analítica
 
-- **Promedios móviles** (7 y 30 días)
-- **Tendencias** (regresión lineal/polinómica)
-- **Correlaciones**: sueño ↔ estrés, actividad ↔ FC en reposo
-- **Score de calidad de sueño** (custom)
-- **Detección de anomalías** (IQR, Z-score)
+**Feature engineering:**
+- **Promedios móviles (rolling means):** Ventanas de 7, 14 y 30 días para suavizar series temporales y detectar tendencias de corto/medio plazo
+- **Rezagos (lags):** Variables con desplazamiento temporal (1-3 días) para modelar efectos diferidos de actividad sobre sueño
+- **Score compuesto de calidad de sueño:** Métrica custom (0-100) ponderando duración (40%), sueño profundo (40%) y continuidad (20%)
+
+**Análisis de tendencias:**
+- Regresión lineal (OLS) para estimar pendientes en períodos de interés
+- Regresión polinómica (grado 2) para capturar patrones no lineales
+- Detección de cambios estructurales (changepoint detection) con métodos de segmentación
+
+**Correlaciones:**
+- Pearson para relaciones lineales (sueño ↔ pasos)
+- Spearman para relaciones monotónicas no lineales
+- Cross-correlation con rezagos para identificar desfases temporales óptimos
+
+**Detección de anomalías:**
+- Método IQR (Q1 - 1.5×IQR, Q3 + 1.5×IQR) para outliers robustos
+- Z-score (|z| > 3) para identificar valores extremos en distribuciones normales
+- Validación visual mediante box plots y series temporales anotadas
+
+**Agregaciones temporales:**
+- Resúmenes semanales (`.dt.to_period('W')`) para comparar períodos
+- Estadísticos: media, mediana, percentiles (25, 75), coeficiente de variación
 
 ---
 
-## 🧪 Stack tecnológico
+## 🧪 Stack Tecnológico
 
-- **Python 3.11+**
-- **pandas, numpy**: manipulación de datos
-- **matplotlib, seaborn, plotly**: visualización
-- **jupyter**: análisis interactivo
-- **scipy**: estadística
+**Core (manipulación y análisis):**
+- **pandas ≥2.0:** Manipulación eficiente de series temporales con `.dt` accessor
+- **numpy ≥1.24:** Operaciones vectorizadas y cálculo numérico
+- **scipy ≥1.10:** Tests estadísticos (correlaciones, detección de outliers)
+
+**Visualización:**
+- **matplotlib ≥3.7:** Plots estáticos de alta calidad (series temporales, scatter plots)
+- **seaborn ≥0.12:** Visualizaciones estadísticas (heatmaps de correlación, distribuciones)
+- **plotly ≥5.14:** Gráficos interactivos para exploración (opcional, según necesidad)
+
+**Entorno:**
+- **jupyter, notebook:** Análisis interactivo y narrativa reproducible
+- **python-dateutil:** Parsing robusto de timestamps Zepp
+
+**No incluido (agregar si necesario):**
+- **scikit-learn:** Feature scaling, clustering, modelos predictivos
+- **statsmodels:** ARIMA, tests de estacionariedad, modelos de series temporales
+- **ruptures:** Detección automática de changepoints
 
 ---
 
@@ -119,14 +186,41 @@ jupyter notebook notebooks/01_exploracion_inicial.ipynb
 
 ---
 
-## 📌 Próximos pasos
+## 📌 Roadmap Analítico
 
-1. ✅ Setup inicial del proyecto
-2. ⏳ Cargar primer dataset de Zepp
-3. ⏳ Análisis exploratorio y limpieza
-4. ⏳ Definir métricas baseline
-5. ⏳ Dashboard semanal de progreso
-6. ⏳ Análisis de correlaciones (sueño/estrés/entrenamiento)
+**Fase 1: EDA y limpieza** ✅ En progreso
+- [x] Setup del proyecto y estructura de carpetas
+- [x] Carga inicial de CSVs con validación de encoding
+- [ ] Análisis de calidad de datos (missings, outliers, rangos válidos)
+- [ ] Estadísticas descriptivas por variable
+- [ ] Visualización de distribuciones y series temporales
+
+**Fase 2: Feature engineering**
+- [ ] Construcción de rolling averages (7/14/30d)
+- [ ] Cálculo de score de calidad de sueño
+- [ ] Creación de features de rezago (lags 1-3d)
+- [ ] Agregaciones semanales y mensuales
+
+**Fase 3: Análisis de correlaciones**
+- [ ] Matriz de correlación Pearson/Spearman
+- [ ] Cross-correlation con rezagos variables
+- [ ] Identificación de relaciones significativas
+- [ ] Visualización de scatter plots con tendencias
+
+**Fase 4: Análisis de intervenciones**
+- [ ] Comparación pre/post inicio de entrenamiento (ene 2025)
+- [ ] Detección de changepoints en series clave
+- [ ] Análisis de impacto en ventanas de 2-4 semanas
+
+**Fase 5: Modelado (opcional)**
+- [ ] Predicción de calidad de sueño con regresión (baseline)
+- [ ] Clustering de días según perfil de actividad/sueño
+- [ ] Análisis de series temporales (ARIMA, Prophet)
+
+**Fase 6: Reporting**
+- [ ] Dashboard interactivo con métricas principales
+- [ ] Documento de insights y recomendaciones accionables
+- [ ] Preparación para presentación en portfolio
 
 ---
 

@@ -18,6 +18,13 @@
 - El análisis debe priorizar métricas de recuperación y estrés sobre métricas puramente estéticas
 - Foco en sostenibilidad y progresión segura, no en optimización extrema
 
+**Preguntas analíticas clave:**
+- Correlación actividad física → calidad sueño (con rezagos 0-2 días)
+- Impacto de entrenamiento estructurado en FC en reposo
+- Detección de changepoints asociados a intervenciones
+- Variabilidad intra-sujeto en métricas clave
+- Patrones cíclicos (semanales) en sueño y actividad
+
 ---
 
 ## Suplementación y Criterios de Salud
@@ -121,7 +128,7 @@ min_date, max_date, days = get_date_range(df)
 ```python
 from src import rolling_average, weekly_summary, sleep_quality_score
 
-# Promedios móviles: default 7 días para tendencias cortas
+# Promedios móviles: ventanas 7/14/30d para tendencias corto/medio plazo
 df['sleep_7d'] = rolling_average(df, 'sleep_hours', window=7)
 df['sleep_30d'] = rolling_average(df, 'sleep_hours', window=30)
 
@@ -135,6 +142,12 @@ df['quality'] = df.apply(
     ), axis=1
 )
 ```
+
+**Métodos estadísticos disponibles:**
+- Correlación: Pearson (lineal), Spearman (monotónica), cross-correlation con lags
+- Tendencias: OLS (lineal), polinomial grado 2, changepoint detection
+- Anomalías: IQR (robusto), Z-score (|z|>3)
+- Agregaciones: media, mediana, percentiles, coeficiente de variación
 
 ### 3. Logging con Emojis
 
@@ -193,6 +206,13 @@ jupyter notebook notebooks/01_exploracion_inicial.ipynb
 ---
 
 ## Principios de Análisis
+
+### Nota Metodológica
+**Enfoque N=1 (single-subject design):**
+- Análisis longitudinal para decisiones personalizadas, no generalizables a población
+- Válido para detectar patrones individuales y evaluar intervenciones con mediciones repetidas
+- **Limitaciones reconocidas:** sin grupo control, confounders no medidos (dieta, estrés laboral), variabilidad de wearable
+- **Valor profesional:** Demuestra rigor metodológico, pensamiento crítico sobre limitaciones, aplicable a proyectos escalables
 
 ### Análisis Útil vs. Estético
 - ✅ **Útil (priorizar):** Correlaciones sueño-estrés, tendencias de recuperación, impacto de entrenamientos en métricas de salud

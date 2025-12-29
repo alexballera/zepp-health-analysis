@@ -37,7 +37,7 @@ Estas preguntas guían el análisis exploratorio y la selección de features par
 
 ---
 
-## �📊 Datos
+## 📊 Datos
 
 **Fuente:** App Zepp (reloj Amazfit)  
 **Método:** Exportación manual (CSV/ZIP)  

@@ -1,0 +1,20 @@
+date,activity_type,distance_km,duration_min,avg_hr,max_hr,weight_kg,nutrition,rpe,notes
+2026-01-01,Trote Suave,3.0,20,135,145,88.6,Ayuno_LC,5,Inicio post-sedentarismo
+2026-01-02,Fuerza,0.0,30,118,130,88.4,Ayuno_LC,6,Peso corporal
+2026-01-03,Trote Suave,3.0,19,138,148,88.2,Ayuno_LC,5,Ritmo constante
+2026-01-04,Fuerza+Core,0.0,35,125,140,88.0,Ayuno_LC,7,Estabilidad
+2026-01-05,Ergometria,0.0,12,73,166,88.6,Normal,10,Apto medico - FC Max 166
+2026-01-06,Trote+Fuerza,3.0,25,140,155,88.0,Ayuno_LC,6,Fatiga acumulada
+2026-01-11,Fartlek,4.0,28,155,168,87.0,Ayuno_LC,8,Sol fuerte 11am
+2026-01-13,Fuerza+Tabata,0.0,40,130,160,86.8,Ayuno_LC,9,Exceso sentadillas
+2026-01-14,Trote Suave,3.5,32,151,166,86.5,Ayuno_LC,9,Piernas pesadas - Zona 5
+2026-01-17,5.15,35.2,150,155,86.1,6,Entrenamiento con sueño. Ajuste de reloj mejoró lectura.
+2026-01-18,Trote Suave,5.15,35,148,160,86.1,Ayuno_LC,6,Snapshot 18-Ene consolidado
+2026-01-20,Fuerza,0.0,40,115,130,86.1,Ayuno_LC,6,Rutina tren superior
+2026-01-22,Trote Suave,4.0,28,145,158,86.0,Ayuno_LC,6,Mantenimiento base
+2026-01-24,Trote Largo,6.02,40.48,154,160,86.1,Ayuno_LC,7,Hito 6K - Cierre Sprint 1 - Pre-Creatina
+2026-01-27,Fuerza,0.0,40,118,135,85.4,Ayuno_LC,6,Rutina tren inferior - Peso record
+2026-01-28,Trote 5K,5.0,33.62,148,160,85.4,Ayuno_LC,6,Consolidación Z2 - 4 días Creatina - Cadencia estable 156
+2026-01-29,Fuerza,0.0,45,110,125,85.5,Ayuno_LC,7,Tren superior - Inicio resfriado
+2026-01-30,Descanso,0.0,0,0,0,85.6,Normal,4,Reposo por malestar e insomnio
+2026-01-31,Trote Largo,7.0,49.33,150,160,85.6,Ayuno_LC,6,Hito 7K - Resfriado - Cadencia 155 - Creatina Dia 7

@@ -10,10 +10,10 @@ __pycache__/
 *.ipynb_checkpoints/
 
 # Datos sensibles - NO versionar datos exportados
-data/raw/*
-!data/raw/.gitkeep
-data/processed/*
-!data/processed/.gitkeep
+# data/raw/*
+# !data/raw/.gitkeep
+# data/processed/*
+# !data/processed/.gitkeep
 
 # IDEs
 .vscode/
